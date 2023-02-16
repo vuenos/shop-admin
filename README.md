@@ -39,6 +39,35 @@ const loginSubmit = async (form) => {
 
 ## API fetch
 - RTK(ReactQuery) 사용 <https://react-query-v3.tanstack.com/>
+- API Action 함수들을 한 파일에서 관리한다.
+```javascript
+// api.js
+import axios from 'axios';
+
+const apiClient = axios.create({
+  baseURL: 'https://localhost:5000',
+  withCredentials: true,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  }
+});
+
+// orderApi.js
+import apiClient from "../services/api";
+
+export const getSalesStatus = async () => {
+  const { data } = await apiClient.get('/api/salesStatus');
+
+  return data.result;
+}
+
+export const getExchangeStatus = async () => {
+  const { data } = await apiClient.get('/api/exchangeStatus');
+
+  return data.result;
+}
+```
 ```javascript
 import { useQuery } from "react-query";
 import {getOrderData} from "./api/orderApi";
