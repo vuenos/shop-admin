@@ -9,6 +9,22 @@ A React app that authenticates with the [Laravel Sanctum](https://laravel.com/do
 - csrf 토큰이 정상적으로 저장될때 브라우저 스토리지에 'auth' 와 같은 key 를 저장한다.
 - 저장된 'auth' key 값으로 Recoil 을 통해 로그인 상태관리(global state management)를 하게 된다.
 ```javascript
+// atoms/auth.js
+import { atom, useRecoilState} from "recoil";
+
+const AuthState = atom({
+  key: 'AuthState',
+  default: {loggedIn: false, id: "", password: ""}
+});
+
+export { AuthState }
+
+export const useAuthState = () => useRecoilState(AuthState);
+
+
+// login.jsx
+import { useAuthState } from "../atoms/auth";
+
 const loginSubmit = async (form) => {
 
   await apiClient.get(`/sanctum/csrf-cookie`);
